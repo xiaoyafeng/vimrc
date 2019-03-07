@@ -1,5 +1,3 @@
-"must clone vundle before port vim!! don't forget setting rtp. 
-"git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "set ff=unix
 "source $VIMRUNTIME/vimrc_example.vim
 "source $VIMRUNTIME/mswin.vim
@@ -27,54 +25,55 @@ set autochdir
 set backupdir=$TEMP
 set undodir=$TEMP
 filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-"Start Vundle!!"
-call vundle#begin()
-Plugin 'fholgado/minibufexpl.vim'
-Plugin 'VundleVim/vundle.vim'  
-Plugin 'scrooloose/nerdtree'  
-Plugin 'tpope/vim-fugitive'
-Plugin 'mbbill/undotree'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'bling/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ryanoasis/vim-devicons'
-Plugin 'mileszs/ack.vim'
-Plugin 'vim-perl/vim-perl'
-Plugin 'WolfgangMehner/perl-support'
-Plugin 'c.vim'
-Plugin 'DrawIt'
-Plugin 'mhinz/vim-startify'
-Plugin 'jlanzarotta/bufexplorer'
-Plugin 'itchyny/calendar.vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'Yggdroot/indentLine'
-Plugin 'majutsushi/tagbar'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'Valloric/ListToggle'
+"vimPlug!!"
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+call plug#begin('~/.vim/plugged')
+Plug 'fholgado/minibufexpl.vim'
+Plug 'VundleVim/vundle.vim'  
+Plug 'scrooloose/nerdtree'  
+Plug 'tpope/vim-fugitive'
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'mileszs/ack.vim'
+Plug 'vim-perl/vim-perl'
+Plug 'WolfgangMehner/perl-support'
+"Plug 'c.vim'
+"Plug 'DrawIt'
+Plug 'mhinz/vim-startify'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'itchyny/calendar.vim'
+Plug 'Raimondi/delimitMate'
+Plug 'Yggdroot/indentLine'
+Plug 'majutsushi/tagbar'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'scrooloose/nerdcommenter'
+Plug 'Valloric/ListToggle'
+Plug 'vim-scripts/a.vim'
 if v:version >= 800
- Plugin 'w0rp/ale'
+ Plug 'w0rp/ale'
 endif
 
 """"""""themes"""""""""""""""
-Plugin 'morhetz/gruvbox'
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'rakr/vim-one'
+Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'nanotech/jellybeans.vim'
+Plug 'rakr/vim-one'
 
 
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'rdnetto/YCM-Generator'
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-filetype indent on 
-filetype plugin on
-let g:gruvbox_sign_column = 'dark0'
-let g:gruvbox_vert_split = 'dark0'
-colorscheme gruvbox
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/YCM-Generator'
+call plug#end()            " required
+"let g:gruvbox_sign_column = 'dark0'
+"let g:gruvbox_vert_split = 'dark0'
+"colorscheme gruvbox
 noremap <F5> :NERDTreeFind<CR>
 runtime macros/matchit.vim
 let g:indentLine_color_term = 239
@@ -85,7 +84,6 @@ let g:ycm_add_preview_to_completeopt = 1
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_confirm_extra_conf = 0
-let g:winManagerWindowLayout='NERDTree|TagList,BufExplorer'
 
 " minibufexplorer
 hi MBENormal               guifg=#928374 guibg=fg ctermfg=244
@@ -152,6 +150,17 @@ if !exists('g:undotree_WindowLayout')
   let g:undotree_WindowLayout = 3
 endif
 
+"Gutentags
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
+let g:gutentags_ctags_tagfile = '.tags'
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+let g:gutentags_ctags_extra_args += ['--c++-kinds=+px']
+let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
 
 
 " ListToggle
